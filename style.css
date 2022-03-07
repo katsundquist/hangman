@@ -1,0 +1,13 @@
+body {
+    text-align: center;
+}
+
+.body-photo {
+    height: 150px;
+    vertical-align: bottom;
+}
+
+.body-parts {
+    width: 50%;
+    margin: auto;
+}

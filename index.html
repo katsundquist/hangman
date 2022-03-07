@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+   <meta charset="utf-8"> <!-- why do I need this here?-->
+    <title>Kat writes questionable code</title>
+    <link rel="stylesheet" href="style.css"> <!-- this connects to the css file-->
+  </head>
+<body>
+    <!-- add header and main tags?-->
+<h1>Hangman</h1>
+
+<input type="text" id="word-to-guess" name="word" size="10">
+
+<input type="submit" value="submit">
+<div class = "body-parts">
+  <div class = "row">
+    <img id = "head-photo" class = "body-photo" src = "images/Generic-Person.png">
+  </div>
+  <div class = "row">
+    <img id = "right-arm-photo" class = "body-photo" src = "images/rightarm.png"><!--
+    --><img id = "torso-photo" class = "body-photo" src = "images/tors.jpg"><!--
+    --><img id = "left-arm-photo" class = "body-photo" src = "images/leftarm.jpeg">
+  </div>
+  <div class = "row">
+    <img id = "right-leg-photo" class = "body-photo" src = "images/rightleg.jpg">
+    <img id = "chicken-leg-photos" class = "body-photo" src = "images/chickenleg.jpeg">
+  </div>
+</div>
+<div>
+  <p>_ _ _ _ _ _ _ _ _ _</p> <!-- set this up differently later-->
+</div>
+<div>
+  <!-- way to enter letter guesses, TBD at this point-->
+  <input type="text" id="guess" name="guess" size="10", maxlength = 1>
+  <input type="submit" value="submit">
+</div>
+<div>
+  <p>Guessed Letters:</p>
+</div>
+
+<input type="submit" value="restart">
+
+<script  src="main.js"></script>  <!-- this connects to the js file-->
+</body>
+</html>
