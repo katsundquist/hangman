@@ -10,24 +10,24 @@
 <h1>Hangman</h1>
 
 <input type="text" id="word-to-guess" name="word" size="10">
+<input type="submit" id= "word-in" value="submit">
 
-<input type="submit" value="submit">
 <div class = "body-parts">
   <div class = "row">
-    <img id = "head-photo" class = "body-photo" src = "images/Generic-Person.png">
+    <img id = "head-photo" class = "body-photo visible"  src = "images/Generic-Person.png">
   </div>
   <div class = "row">
-    <img id = "right-arm-photo" class = "body-photo" src = "images/rightarm.png"><!--
-    --><img id = "torso-photo" class = "body-photo" src = "images/tors.jpg"><!--
-    --><img id = "left-arm-photo" class = "body-photo" src = "images/leftarm.jpeg">
+    <img id = "right-arm-photo" class = "body-photo visible" src = "images/rightarm.png"><!--
+    --><img id = "torso-photo" class = "body-photo visible" src = "images/tors.jpg"><!--
+    --><img id = "left-arm-photo" class = "body-photo visible" src = "images/leftarm.jpeg">
   </div>
   <div class = "row">
-    <img id = "right-leg-photo" class = "body-photo" src = "images/rightleg.jpg">
-    <img id = "chicken-leg-photos" class = "body-photo" src = "images/chickenleg.jpeg">
+    <img id = "right-leg-photo" class = "body-photo visible" src = "images/rightleg.jpg">
+    <img id = "chicken-leg-photos" class = "body-photo visible" src = "images/chickenleg.jpeg">
   </div>
 </div>
 <div>
-  <p>_ _ _ _ _ _ _ _ _ _</p> <!-- set this up differently later-->
+  <p id="word-in-play">_ _ _ _ _ _ _ _ _ _</p> <!-- set this up differently later-->
 </div>
 <div>
   <!-- way to enter letter guesses, TBD at this point-->
