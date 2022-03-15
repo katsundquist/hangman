@@ -9,7 +9,6 @@ function setWord () {
 
     const wordToGuessElement = document.getElementById("word-to-guess");
     wordToGuess = wordToGuessElement.value;
-    //console.log("in setWord", wordToGuess.length);
 
     wordToGuessElement.value = '';
 
@@ -18,12 +17,15 @@ function setWord () {
     concealWord();
 }
 
-
 submitWordToGuess.addEventListener('click', setWord);
-
 
 function concealWord() {
 
+    // so this stuff will make things complicated in the case of multiple word plays
+    // at 11:45 before I leave at 12 for the weekend, I wondered to myself,
+    // surely, I can use CSS to add space between the letters.
+    // I fired up a codepen and of course, it turns out to be true.
+    // so that is somehting to look into and consider further down the road.
     const wordLength = wordToGuess.length;
 
     const letterPlaceholder = "_ "
@@ -34,13 +36,6 @@ function concealWord() {
 
     concealedWordElement.innerHTML = concealedWord;
 }
-
-// Guessing:  letter present, letter not present
-// letter present: change the visual represnation of the word to 
-//      display guessed letter
-// letter not present: 
-//      display letter in letter graveyard
-//      display body part
 
 function setGuess() {
     const letterGuessElement = document.getElementById("guess");
@@ -59,16 +54,12 @@ function compareGuess(){
     if(wordToGuess.includes(letterGuess)){
         addCorrectGuess();
     } else {
-        console.log("SPLAT");
+        addIncorrectGuess();
     }
 }
 
 function addCorrectGuess(){
-    console.log(wordToGuess);
-    console.log(concealedWord);
 
-
-    // _ are at even indicies
     let letterIndicies = [];
     for(i = 0; i < wordToGuess.length; i++) {
         if (wordToGuess[i] === letterGuess){
@@ -76,35 +67,38 @@ function addCorrectGuess(){
         }
     }
 
-    console.log(letterIndicies);
-
     for(i = 0; i < letterIndicies.length; i++){
         concealedWord = replaceAtIndex(concealedWord, letterIndicies[i], letterGuess);
         concealedWordElement.innerHTML = concealedWord;
     }
-    console.log(concealedWord);
 }
 
 function replaceAtIndex(string, index, newValue) {
     return string.substring(0,index) + newValue + string.substring(index+1);
 }
 
+function addIncorrectGuess(){
+    const guessedLetters = document.getElementById("guessed-letters");
+    
+    const span = document.createElement("span");
+    const guess = document.createTextNode(letterGuess);
+    span.appendChild(guess);
 
+    guessedLetters.appendChild(span);
+    
+    let guessCount = guessedLetters.querySelectorAll("span").length;
+
+    showBodyPart(guessCount);
+}
 
 submitLetterGuess.addEventListener('click', setGuess);
 
-let bodyParts = document.querySelectorAll(".body-photo");
+function showBodyPart(guessCount) {
 
-bodyParts.forEach(function (part){
-    part.addEventListener('click', showBodyPart);
-})
+    let bodyParts = ["head-photo", "torso-photo", "right-arm-photo", "left-arm-photo", "right-leg-photo", "chicken-leg-photo"];
 
-function showBodyPart(event) {
-   console.log(event);
-   const part = event.target;
+   const part = document.getElementById(bodyParts[guessCount - 1]);
 
-   console.log(part);
-
-   part.classList.remove("invisible");
-   part.classList.add("visible");
+    part.classList.remove("invisible");
+    part.classList.add("visible");
 }
