@@ -2,6 +2,7 @@ const submitWordToGuess = document.getElementById("word-in");
 const submitLetterGuess = document.getElementById("letter-in");
 const concealedWordElement = document.getElementById("word-in-play");
 const guessedLetters = document.getElementById("guessed-letters");
+//let concealedSpans = document.querySelectorAll(".word");
 let wordToGuess;
 let letterGuess;
 let concealedWord = "";
@@ -22,14 +23,15 @@ submitWordToGuess.addEventListener('click', setWord);
 
 function concealWord() {
 
-    // so this stuff will make things complicated in the case of multiple word plays
-    // at 11:45 before I leave at 12 for the weekend, I wondered to myself,
-    // surely, I can use CSS to add space between the letters.
-    // I fired up a codepen and of course, it turns out to be true.
-    // so that is somehting to look into and consider further down the road.
+    // there is a problem in here.  When you reset the page, it goes to the default
+    // amount of spaces specified in the reset.  But when you add a new word, it
+    // seems to put the empty boxes at the front of the series of boxes
+
+    concealedWord = "";
+
     const wordLength = wordToGuess.length;
 
-    const letterPlaceholder = "_ "
+    const letterPlaceholder = "<span class = 'word'></span>"//"_ "
 
     for(let i = 0; i < wordLength; i++){
         concealedWord += letterPlaceholder;
@@ -64,29 +66,66 @@ function addCorrectGuess(){
     let letterIndicies = [];
     for(i = 0; i < wordToGuess.length; i++) {
         if (wordToGuess[i] === letterGuess){
-            letterIndicies.push(i * 2);
+            letterIndicies.push(i);
         }
     }
 
-    for(i = 0; i < letterIndicies.length; i++){
-        concealedWord = replaceAtIndex(concealedWord, letterIndicies[i], letterGuess);
-        concealedWordElement.innerHTML = concealedWord;
+    // get array-like-object of span elements
+    let concealedSpans = document.querySelectorAll(".word");
+
+    for(let i = 0; i < letterIndicies.length; i++){
+        concealedSpans[letterIndicies[i]].innerHTML = letterGuess;
+    
     }
 
-    // checking for a win from here down.  This is gross, and I want to change
-    // it when I refactor because this is disgusting.
+    // check inside spans to see if there is text or not 
+    // if there is text in all spans, signal win
+    // if not, continue
+
     let tally = 0;
-    for( i = 0; i < concealedWord.length; i++){
-        if(concealedWord[i] === "_"){
+
+    //console.log(typeof(concealedSpans), "concealed spans");
+    // when if does not include ?, I get this error:
+    // main.js:84 Uncaught TypeError: Cannot read properties of undefined (reading 'innerHTML')
+    // tried so far:  firstChild, childNodes
+    // when if includes ?, it loops in the for loop 100+ times, 
+    // but it will eventually hit the check for the win condition
+    for(let i = 0; i < wordToGuess.length; i++){
+
+        //console.log(typeof(concealedSpans[i].innerHTML), "in concealed word");
+        //console.log(concealedSpans[i].innerHTML, "in concealed word")
+
+        if(concealedSpans[i]?.innerHTML === ""){ // it loops like 100 times in the for
             tally += 1;
-        } 
+            //console.log(typeof(concealedSpans[i]), "in if statement");
+            //console.log(typeof(concealedSpans[i].innerHTML), "innerHTML");
+           
+        }
+        console.log(tally, "in for");
     }
 
+    console.log(tally, "outside of for loop");
     if(tally === 0){
         setTimeout(function() {
             window.alert("Hooray!  You win!");
-          }, 9)
+        }, 9)
     }
+
+    // // this no longer works with the spans
+    // // checking for a win from here down.  This is gross, and I want to change
+    // // it when I refactor because this is disgusting.
+    // let tally = 0;
+    // for( i = 0; i < concealedWord.length; i++){
+    //     if(concealedWord[i] === "_"){
+    //         tally += 1;
+    //     } 
+    // }
+
+    // if(tally === 0){
+    //     setTimeout(function() {
+    //         window.alert("Hooray!  You win!");
+    //       }, 9)
+    // }
 }
 
 function replaceAtIndex(string, index, newValue) {
@@ -94,7 +133,6 @@ function replaceAtIndex(string, index, newValue) {
 }
 
 function addIncorrectGuess(){
-    
     
     const span = document.createElement("span");
     const guess = document.createTextNode(letterGuess);
@@ -130,18 +168,30 @@ var playAgain = document.getElementById("play-again");
 
 playAgain.onclick = function () {
 
-  
-    concealedWordElement.innerHTML = "_ _ _ _ _ _";
+
+    // this also needs to change
+
+    concealedWordElement.innerHTML = '<span class = "word"></span><span class = "word"></span><span class = "word"></span><span class = "word"></span><span class = "word"></span>';
+
+
     wordToGuess = "";
 
+
+    // this needs changing.
     letters = guessedLetters.querySelectorAll("span");
 
     letters.forEach(function (letter) {
         letter.remove();
     })
 
-    // hide the body parts
+    /*
+    concealedSpans.forEach(function (concealedSpan) {
+        concealedSpan.remove();
+    })
 
+*/
+
+    // hide the body parts
     let bodyPhotos = document.querySelectorAll(".body-photo");
 
     bodyPhotos.forEach(function (part){
@@ -150,13 +200,5 @@ playAgain.onclick = function () {
         console.log("in here");
     })
 
-
-//   // changes the squares background color to white
-//   squareList.forEach(function (square) {
-//     square.style.backgroundColor = "white";
-//     square.innerHTML = "";
-//   })
-//   single.disabled = false;
-//   multi.disabled = false;
 
 }

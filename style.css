@@ -7,6 +7,25 @@ body {
     vertical-align: bottom;
 }
 
+.word{
+    border-bottom: 1px solid black;
+    width: 12px;
+    display: inline-block;
+    height: 25px;
+    margin: 5px;
+    text-align: center;
+}
+
+#word-in-play{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* not sure that this is the way to go. but this is it for the time being*/
+span {
+    padding: 2px;
+}
+
 .visible {
     visibility: visible;
 }
