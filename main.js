@@ -1,11 +1,9 @@
 const submitWordToGuess = document.getElementById("word-in");
 const submitLetterGuess = document.getElementById("letter-in");
+const playAgain = document.getElementById("play-again");
 const concealedWordElement = document.getElementById("word-in-play");
 const guessedLetters = document.getElementById("guessed-letters");
 let wordToGuess;
-let letterGuess;
-//let concealedWord = "";
-
 
 submitWordToGuess.addEventListener('click', function() {
     setWord();
@@ -41,14 +39,15 @@ submitLetterGuess.addEventListener('click', function () {
 
     let concealedSpans = document.querySelectorAll(".word");
     let guessCount;
+    //let letterGuess;
 
-    setGuess();
+    let letterGuess = setGuess();
 
-    let blah = compareGuess();  // give this a less shitty name.
-    if(blah){
-        addCorrectGuess(concealedSpans);
+    let winOrLose = compareGuess(letterGuess); 
+    if(winOrLose){
+        addCorrectGuess(concealedSpans, letterGuess);
     } else {
-        addIncorrectGuess();
+        addIncorrectGuess(letterGuess);
         guessCount = guessedLetters.querySelectorAll("span").length;
         showBodyPart(guessCount);
     }
@@ -61,9 +60,11 @@ function setGuess() {
     letterGuess = letterGuessElement.value;
 
     letterGuessElement.value = '';
+
+    return letterGuess;
 }
 
-function compareGuess(){
+function compareGuess(letterGuess){
 
     letterGuess = letterGuess.toLowerCase();
     console.log(letterGuess);
@@ -75,7 +76,7 @@ function compareGuess(){
     }
 }
 
-function addCorrectGuess(concealedSpans){
+function addCorrectGuess(concealedSpans, letterGuess){
 
     let letterIndicies = [];
     for(i = 0; i < wordToGuess.length; i++) {
@@ -90,7 +91,7 @@ function addCorrectGuess(concealedSpans){
     }
 }
 
-function addIncorrectGuess(){
+function addIncorrectGuess(letterGuess){
     
     const span = document.createElement("span");
     const guess = document.createTextNode(letterGuess);
@@ -100,6 +101,8 @@ function addIncorrectGuess(){
 }
 
 function checkEndOfGame(concealedSpans, guessCount){
+
+    // check for win
     let tally = 0;
 
     for(let i = 0; i < wordToGuess.length; i++){
@@ -116,6 +119,7 @@ function checkEndOfGame(concealedSpans, guessCount){
         }, 9)
     }
 
+    // check for loss
     if (guessCount >= 6){
         setTimeout(function() {
             window.alert("You Lose :(");
@@ -136,12 +140,11 @@ function showBodyPart(guessCount) {
 }
 
 
-var playAgain = document.getElementById("play-again");
+
 
 playAgain.onclick = function () {
 
     concealedWordElement.innerHTML = '<span class = "word"></span><span class = "word"></span><span class = "word"></span><span class = "word"></span><span class = "word"></span>';
-
 
     wordToGuess = "";
 
@@ -159,6 +162,4 @@ playAgain.onclick = function () {
         part.classList.add("invisible");
         console.log("in here");
     })
-
-
 }
